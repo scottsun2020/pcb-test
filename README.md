@@ -17,8 +17,9 @@ High-voltage or noisy source
        │ (I²C digital data)
        ▼
  Raspberry Pi
-
-<img width="1078" height="811" alt="Screenshot from 2025-10-22 17-59-13" src="https://github.com/user-attachments/assets/42708524-bab2-490e-be04-f5f5fbb0c32a" />
+<p align = "center">
+    <img width="400" alt="Screenshot from 2025-10-22 17-59-13" src="https://github.com/user-attachments/assets/42708524-bab2-490e-be04-f5f5fbb0c32a" />
+</ p>
 
 
 ## Detect the ADC devices (two)
