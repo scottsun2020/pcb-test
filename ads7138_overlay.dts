@@ -1,0 +1,65 @@
+rivieh@raspberrypi:~ $ cat ads7138-overlay.dts 
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2712";
+
+    fragment@0 {
+        target = <&i2c1>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+	/* Frist ADC at address 0x10 */
+	    ads7138_1: ads7138@10 {		
+           // ads7128@10 {
+                compatible = "ti,ads7138";
+                reg = <0x10>;
+		status = "okay";	
+                // Reference to raspberry pi's 3.3v 
+                //avdd-supply = <&rp1_vdd_3v3>;
+		avdd-supply = <&ads7138_5v_reg>;
+
+            };
+	/* Second ADC at address 0x15 */
+            ads7138_2: ads7138@15 {
+                compatible = "ti,ads7138";
+                reg = <0x15>;
+                status = "okay";
+                avdd-supply = <&ads7138_5v_reg>;
+            };
+        };
+    };
+fragment@1 {
+    target-path = "/";
+    __overlay__ {
+        ads7138_5v_reg: ads7138_5v_reg {
+            compatible = "regulator-fixed";
+            regulator-name = "ads7138-5v";
+            regulator-min-microvolt = <5000000>;
+            regulator-max-microvolt = <5000000>;
+            regulator-always-on;
+        };
+    };
+};
+
+/* Fragment 2 — define voltage divider AFE node */
+    fragment@2 {
+        target-path = "/";
+        __overlay__ {
+            vd_afe_3v3: vd_afe_3v3 {
+                compatible = "voltage-divider";  /* use old style */
+                io-channels = <&ads7138_1 0>;    /* first ADC, channel 0 */
+                output-ohms = <33200>;           /* Rbottom */
+                full-ohms   = <133200>;          /* Rtop + Rbottom */
+                status = "okay";
+            };
+        };
+    };
+
+};
+
+
+	
+
+};
